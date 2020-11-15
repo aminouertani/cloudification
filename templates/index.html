@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Chatty Chatbot</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="../static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="../static/css/one-page-wonder.min.css" rel="stylesheet">
+  <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../static/img/55.png"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    
+
+</head>
+
+<body>
+  <style>
+    #chatbox {
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        margin-top: 60px;
+        
+      }
+      #userInput {
+        margin-left: auto;
+        margin-right: auto;
+        width: 40%;
+        margin-top: 60px;
+      }
+      #textInput {
+        width: 90%;
+        border: none;
+        border-bottom: 3px solid #e7964b;
+        font-family: monospace;
+        font-size: 17px;
+      }
+      .userText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: right;
+        line-height: 30px;
+      }
+      .userText span {
+        background-color: #808080;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      .botText {
+        color: white;
+        font-family: monospace;
+        font-size: 17px;
+        text-align: left;
+        line-height: 30px;
+      }
+      .botText span {
+        background-color: #e7964b;
+        padding: 10px;
+        border-radius: 2px;
+      }
+      #tidbit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+      }
+      .boxed {
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        margin-top: 50px;
+        border: 1px solid green;
+      }
+      
+  </style>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Sup'Com</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a> <!--Sign Up-->
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#"></a> <!--log in-->
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="masthead text-center text-white">
+    <div class="masthead-content">
+      <div class="container">
+        <h1 class="masthead-heading mb-0">Welcome to our website</h1>
+        <h2 class="masthead-subheading mb-0">Find your doctor with chatty !</h2>
+        <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Learn More</a>
+      </div>
+    </div>
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
+  </header>
+
+  <section>
+    <div class="container">
+      <img />
+    <center>
+      <h1>
+        Start talking with Chatty !
+      </h1>
+    </center>
+    <h3>
+      <h1>
+        Work done by Amine Ouertani & Abderrahmane Ben Hassine
+        
+      </h1>
+    </h3>
+    <div class="box"></div>
+    <div class="boxed">
+      <div>
+        <div id="chatbox">
+          
+          <p class="botText">
+            <span>Hi! I'm Chatty ChatBot ❤️ Do you need something ?</span>
+          </p>
+        </div>
+        <div id="userInput">
+          <input id="textInput" type="text" name="msg" placeholder="Message" />
+        </div>
+      </div>
+      <script>
+        var citiesName=['manar','ghazela'];
+
+function getBotResponse() {
+  var rawText = $("#textInput").val();
+  var rawTextLowerCase = rawText.toLowerCase();
+  var userHtml = '<p class="userText"><span>' + rawText + "</span></p>";
+  $("#textInput").val("");
+  $("#chatbox").append(userHtml);
+  document
+    .getElementById("userInput")
+    .scrollIntoView({ block: "start", behavior: "smooth" });
+  $.get("/get", { msg: rawText }).done(function(data) {
+    var botHtml;
+    console.log(data);
+    if(citiesName.includes(data)){
+      botHtml = '<p class="botText"><span>To have the list of doctors click on : <a class="linkStyle" href="{{ url_for("caret") }}">' +data+'</a></span></p>'
+    }
+    else{
+      botHtml = '<p class="botText"><span>' + data + "</span></p>";
+    } 
+    $("#chatbox").append(botHtml);
+    document
+      .getElementById("userInput")
+      .scrollIntoView({ block: "start", behavior: "smooth" });
+  });
+}
+
+
+$("#textInput").keypress(function(e) {
+  if (e.which == 13) {
+    getBotResponse();
+    
+  }
+});
+      </script>
+    </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <div class="p-5">
+            <img class="img-fluid rounded-circle" src="../static/img/02.jpg" alt="">
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="p-5">
+            <h2 class="display-4">We salute you!</h2>
+            <p>This chatbot was developed as part of the cloudification project in Sup'Com. </p>
+            <p>This work was done by Amin & Abdo. Thank you for visiting our website ! :D </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- Footer -->
+  <footer class="py-5 bg-black">
+    <div class="container">
+      <p class="m-0 text-center text-white small">Copyright &copy; My Chatbot Website 2020 Abdo&Amine</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
